@@ -14,3 +14,9 @@ where location = 'Saint Louis';
 drop table job;
 
 ## Part 4: Test it with SQL
+
+USE techjobs;
+select name, description from skill order by name;
+
+
+
