@@ -4,7 +4,6 @@ import com.sun.istack.NotNull;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +18,7 @@ public class Employer extends AbstractEntity {
 
     @OneToMany
     @JoinColumn
-    private List<Job> jobs = new ArrayList<Job>();
+    private final List<Job> jobs = new ArrayList<Job>();
 
     public Employer() {
     }
@@ -30,5 +29,9 @@ public class Employer extends AbstractEntity {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public List<Job> getJobs() {
+        return jobs;
     }
 }

@@ -35,6 +35,7 @@ public class HomeController {
     public String index(Model model) {
 
         model.addAttribute("title", "My Jobs");
+        model.addAttribute("jobs", jobRepository.findAll());
 
         return "index";
     }
@@ -43,7 +44,8 @@ public class HomeController {
     public String displayAddJobForm(Model model) {
         model.addAttribute("title", "Add Job");
         model.addAttribute(new Job());
-        model.addAttribute("employer", employerRepository.findAll());
+        model.addAttribute("employers", employerRepository.findAll());
+        model.addAttribute("skills", skillRepository.findAll());
         return "add";
     }
 
@@ -55,8 +57,16 @@ public class HomeController {
             model.addAttribute("title", "Add Job");
             return "add";
         }
+        model.addAttribute("employers", employerRepository.findById(employerId));
+
+        model.addAttribute("skills", skillRepository.findAll());
+        model.addAttribute("jobs", jobRepository.findAll());
+        Optional<Employer> employerName = employerRepository.findById(employerId);
+        Employer employer = (Employer) employerName.get();
         List<Skill> skillObjs = (List<Skill>) skillRepository.findAllById(skills);
         newJob.setSkills(skillObjs);
+        newJob.setEmployer(employer);
+        jobRepository.save(newJob);
 
         return "redirect:";
     }
@@ -71,6 +81,12 @@ public class HomeController {
         } else {
             return "redirect:../";
         }
+    }
+
+    @GetMapping("list-jobs")
+    public String jobsViewAll(Model model) {
+        model.addAttribute("jobs", jobRepository.findAll());
+        return "list-jobs";
     }
 
 
